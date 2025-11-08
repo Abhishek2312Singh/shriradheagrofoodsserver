@@ -25,6 +25,7 @@ public class UserQueryImpl {
         userQueryRepository.save(userQuery);
         return "Thank You!! We will get back to you soon";
     }
+
     public List<UserQueryOutputDto> getAllQuery(){
         List<UserQuery> userQueries = userQueryRepository.findAll();
         List<UserQueryOutputDto> userQueryOutputDtos = new ArrayList<>();
