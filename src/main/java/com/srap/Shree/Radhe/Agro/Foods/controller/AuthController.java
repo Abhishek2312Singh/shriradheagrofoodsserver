@@ -12,8 +12,11 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.security.Principal;
+import java.util.HashMap;
+import java.util.Map;
 
 @RestController
 public class AuthController {
@@ -34,7 +37,26 @@ public class AuthController {
     }
 
     @PostMapping("/changePassword")
-    public ResponseEntity<String> changePassword(@RequestBody ChangePasswordInputDto request,Principal principal){
-        return ResponseEntity.ok(userService.changePassword(request,principal.getName()));
+    public ResponseEntity<Map<String,String>> changePassword(@RequestBody ChangePasswordInputDto request,Principal principal){
+        Map<String, String> response = new HashMap<>();
+
+        try {
+            String message = userService.changePassword(request, principal.getName());
+            response.put("status", "success");
+            response.put("message", message);
+            return ResponseEntity.ok(response);
+
+        } catch (ResponseStatusException ex) {
+            // Handle specific error from your service
+            response.put("status", "fail");
+            response.put("message", ex.getReason()); // “Current Password Is Incorrect” or “Password Does Not Match”
+            return ResponseEntity.status(ex.getStatusCode()).body(response);
+
+        } catch (Exception ex) {
+            // Handle unexpected errors
+            response.put("status", "fail");
+            response.put("message", ex.getMessage());
+            return ResponseEntity.internalServerError().body(response);
+        }
     }
 }
