@@ -7,6 +7,7 @@ import com.srap.Shree.Radhe.Agro.Foods.repository.UserRepo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
@@ -43,6 +44,7 @@ public class PasswordResetTokenService {
         return sendMailMessage(email,token);
     }
 //    Sending mail to user's mail
+    @Async
     private String sendMailMessage(String email, String token){
         String resetLink = "http://localhost:80/auth/resetpassword?token=" + token;
         SimpleMailMessage message = new SimpleMailMessage();

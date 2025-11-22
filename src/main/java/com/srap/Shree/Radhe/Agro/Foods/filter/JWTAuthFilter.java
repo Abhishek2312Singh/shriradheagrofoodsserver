@@ -25,6 +25,16 @@ public class JWTAuthFilter extends OncePerRequestFilter {
     private UserDetailsService service;
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
+        String path = request.getRequestURI();
+
+        // 🔥 Skip JWT filter for these endpoints
+        if (    path.contains("/auth/forgotpassword") ||
+                path.contains("/auth/resetpassword")) {
+
+            filterChain.doFilter(request, response);
+            return;
+        }
+
         String header = request.getHeader("Authorization");
         String token = null;
         String username = null;
