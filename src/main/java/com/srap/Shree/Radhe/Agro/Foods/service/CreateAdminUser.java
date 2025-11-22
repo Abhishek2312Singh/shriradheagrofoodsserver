@@ -20,8 +20,9 @@ public class CreateAdminUser {
         return args -> {
             if(userRepo.findByUsername("admin").isEmpty()) {
                 User user = new User();
+                user.setEmail("shriradheagrofood@gmail.com");
                 user.setUsername("admin");
-                user.setPassword(config.encoder().encode("root"));
+                user.setPassword(config.encoder().encode("admin"));
                 userRepo.save(user);
                 System.out.println("Admin Created Successfully!!!!");
             }

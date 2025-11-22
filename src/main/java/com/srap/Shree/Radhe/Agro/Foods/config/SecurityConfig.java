@@ -50,6 +50,8 @@ public class SecurityConfig {
                         auth
                                 .requestMatchers(HttpMethod.POST,"/authenticate").permitAll()
                                 .requestMatchers(HttpMethod.POST,"/add").permitAll()
+                                .requestMatchers(HttpMethod.POST,"/auth/forgotpassword").permitAll()
+                                .requestMatchers(HttpMethod.POST,"/auth/resetpassword").permitAll()
                                 .anyRequest().authenticated())
                 .addFilterBefore(filter, UsernamePasswordAuthenticationFilter.class)
                 .build();

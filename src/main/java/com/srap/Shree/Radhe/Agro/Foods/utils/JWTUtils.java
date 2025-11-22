@@ -19,7 +19,7 @@ public class JWTUtils {
         return Jwts.builder()
                 .subject(username)
                 .issuedAt(new Date())
-                .expiration(new Date(System.currentTimeMillis() + 1000 * 60 *2))
+                .expiration(new Date(System.currentTimeMillis() + 1000 * 60 * 10))
                 .signWith(KEY, SignatureAlgorithm.HS256)
                 .compact();
     }

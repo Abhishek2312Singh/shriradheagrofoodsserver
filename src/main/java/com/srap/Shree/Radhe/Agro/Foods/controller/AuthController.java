@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
@@ -30,10 +31,14 @@ public class AuthController {
 
     @PostMapping("/authenticate")
     public ResponseEntity<String> getToken(@RequestBody UserInputDto userInputDto, Principal principal){
+        try{
         authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(
                 userInputDto.getUsername()
                 ,userInputDto.getPassword()));
         return ResponseEntity.ok(jwtUtils.generateToken(userInputDto.getUsername()));
+        }catch(RuntimeException e){
+            return ResponseEntity.badRequest().body("Username And Password Not Matched!!");
+        }
     }
 
     @PostMapping("/changePassword")

@@ -9,8 +9,9 @@ public class UserQuery {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
+    @Column(nullable = false)
     private String userName;
+    @Column(nullable = false)
     private Long contact;
 
     public Long getId() {
@@ -52,7 +53,8 @@ public class UserQuery {
     public void setMessage(String message) {
         this.message = message;
     }
-
+    @Column(nullable = false)
     private String email;
+    @Column(nullable = false)
     private String message;
 }
